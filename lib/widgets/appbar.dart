@@ -5,15 +5,17 @@ class FrozitAppbar extends StatelessWidget implements PreferredSizeWidget {
   const FrozitAppbar({
     super.key,
     required this.title,
-    this.showBackButton = false,
+    this.backgroundColor,
   });
 
   final String title;
-  final bool showBackButton;
+  final Color? backgroundColor;
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      backgroundColor: backgroundColor ?? Colors.white,
+      surfaceTintColor: kContainerColorLight,
       title: Text(
         title,
         style: const TextStyle(
@@ -23,14 +25,6 @@ class FrozitAppbar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       centerTitle: true,
-      leading: showBackButton
-          ? IconButton(
-              icon: const Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            )
-          : null,
     );
   }
 

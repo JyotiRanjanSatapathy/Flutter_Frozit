@@ -12,7 +12,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const FrozitAppbar(title: 'Welcome', showBackButton: false),
+      appBar: const FrozitAppbar(title: 'Welcome'),
       body: Padding(
         padding: const EdgeInsets.all(30.0),
         child: Column(
@@ -37,10 +37,11 @@ class WelcomeScreen extends StatelessWidget {
                     padding: const EdgeInsets.all(20.0),
                     child: TextButton(
                       onPressed: () {
-                        Navigator.of(context).pushNamed(ScreenRoutes.home);
+                        Navigator.of(context)
+                            .pushNamed(ScreenRoutes.navigationRouter);
                       },
                       child: const Text(
-                        "Coninue as a guest",
+                        "Continue as a guest",
                         style: TextStyle(
                           color: kPrimaryColor,
                           fontSize: 20,

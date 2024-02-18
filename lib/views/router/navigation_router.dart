@@ -1,64 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:frozit/views/cart/cart_screen.dart';
 import 'package:frozit/views/home/home_screen.dart';
 import 'package:frozit/views/product/product_screen.dart';
+import 'package:frozit/views/router/model/navigation_provider.dart';
+import 'package:provider/provider.dart';
 
 import '../../common/colors.dart';
 
-class NavigationRouterScreen extends StatefulWidget {
+class NavigationRouterScreen extends StatelessWidget {
   const NavigationRouterScreen({super.key});
 
-  @override
-  State<NavigationRouterScreen> createState() => _NavigationRouterScreenState();
-}
-
-class _NavigationRouterScreenState extends State<NavigationRouterScreen> {
-  final Map<String, IconData> _icons = {
+  static const Map<String, IconData> icons = {
     'Home': Icons.home,
     'Products': Icons.shopping_bag_rounded,
     'Cart': Icons.shopping_cart,
     'Account': Icons.account_circle,
   };
 
-  int currentPageIndex = 0;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: [
-        const HomeScreen(),
-        const ProductScreen(),
-        Container(
-          color: Colors.green,
-        ),
-        Container(
-          color: Colors.blue,
-        ),
-      ][currentPageIndex],
-      bottomNavigationBar: NavigationBar(
-        overlayColor: MaterialStateProperty.all(Colors.white),
-        indicatorColor: kPrimaryColor,
-        selectedIndex: currentPageIndex,
-        onDestinationSelected: (int index) {
-          setState(() {
-            currentPageIndex = index;
-          });
-        },
-        // surfaceTintColor: Colors.white,
-        destinations: _icons.keys
-            .map(
-              (String title) => NavigationDestination(
-                icon: Icon(
-                  _icons[title],
-                  color: kPrimaryColor,
-                ),
-                selectedIcon: Icon(
-                  _icons[title],
-                  color: Colors.white,
-                ),
-                label: title,
-              ),
-            )
-            .toList(),
-      ),
+    return Consumer<NavigationProvider>(
+      builder: (_, router, __) {
+        return Scaffold(
+          body: [
+            const HomeScreen(),
+            const ProductScreen(),
+            const CartScreen(),
+            Container(
+              color: Colors.blue,
+            ),
+          ][router.currentIndex],
+          bottomNavigationBar: NavigationBar(
+            overlayColor: MaterialStateProperty.all(kContainerColor),
+            elevation: 10,
+            shadowColor: Colors.black,
+            surfaceTintColor: kContainerColor,
+            indicatorColor: kPrimaryColor,
+            selectedIndex: router.currentIndex,
+            onDestinationSelected: (int index) {
+              router.currentIndex = index;
+            },
+            // surfaceTintColor: Colors.white,
+            destinations: icons.keys
+                .map(
+                  (String title) => NavigationDestination(
+                    icon: Icon(
+                      icons[title],
+                      color: kPrimaryColor,
+                    ),
+                    selectedIcon: Icon(
+                      icons[title],
+                      color: kContainerColorLight,
+                    ),
+                    label: title,
+                  ),
+                )
+                .toList(),
+          ),
+        );
+      },
     );
   }
 }

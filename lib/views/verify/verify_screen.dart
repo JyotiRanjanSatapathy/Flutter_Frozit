@@ -22,7 +22,6 @@ class _VerifyScreenState extends State<VerifyScreen> {
     return Scaffold(
       appBar: const FrozitAppbar(
         title: ScreenRoutes.verify,
-        showBackButton: true,
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 50.0),

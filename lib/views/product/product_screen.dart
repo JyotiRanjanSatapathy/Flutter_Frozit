@@ -1,7 +1,11 @@
-import 'package:chip_list/chip_list.dart';
 import 'package:flutter/material.dart';
+import 'package:frozit/views/product/widgets/product_details.dart';
+import 'package:provider/provider.dart';
 
 import '../../common/colors.dart';
+import 'model/products.dart';
+import 'widgets/category_chips.dart';
+import 'widgets/product_topbar.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});
@@ -11,69 +15,58 @@ class ProductScreen extends StatefulWidget {
 }
 
 class _ProductScreenState extends State<ProductScreen> {
-  List<String> listOfChipNames = [
-    'All',
-    'Fruits',
-    'Vegetables',
-    'Dairy',
-    'Bakery',
-    'Meat',
-  ];
+  @override
+  void initState() {
+    super.initState();
+    Future.microtask(() => context.read<ProductsModel>().getProducts());
+    // context.read<ProductsModel>().getProducts();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              RichText(
-                text: const TextSpan(
-                  text: 'Frozit\n',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: kContainerColor2,
-                  ),
-                  children: <TextSpan>[
-                    TextSpan(
-                      text: 'Range',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.w700,
-                        color: kPrimaryColor,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Padding(
+              padding: EdgeInsets.symmetric(
+                horizontal: 20,
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ProductTopBar(),
+                  SizedBox(height: 20),
+                  CategoryChips(),
+                  SizedBox(height: 10),
+                ],
+              ),
+            ),
+            Expanded(
+              child: Consumer<ProductsModel>(
+                builder: (context, products, child) => products.isLoading
+                    ? const Center(
+                        child: CircularProgressIndicator(
+                          color: kPrimaryColor,
+                        ),
+                      )
+                    : GridView.count(
+                        crossAxisCount: 2,
+                        crossAxisSpacing: 20,
+                        mainAxisSpacing: 20,
+                        childAspectRatio: .7,
+                        padding: const EdgeInsets.symmetric(
+                            vertical: 20, horizontal: 10),
+                        children: products.products
+                            .map(
+                              (product) => ProductDetails(product: product),
+                            )
+                            .toList(),
                       ),
-                    ),
-                  ],
-                ),
               ),
-              const SizedBox(height: 5),
-              ChipList(
-                showCheckmark: false,
-                style: const TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500,
-                  color: kSecondaryColor,
-                ),
-                checkmarkColor: Colors.white,
-                listOfChipNames: listOfChipNames,
-                activeBgColorList: List.generate(
-                  listOfChipNames.length,
-                  (index) => kPrimaryColor,
-                ),
-                activeTextColorList: List.generate(
-                  listOfChipNames.length,
-                  (index) => Colors.white,
-                ),
-                inactiveTextColorList: List.generate(
-                    listOfChipNames.length, (index) => kSecondaryColor),
-                listOfChipIndicesCurrentlySeclected:
-                    List.generate(listOfChipNames.length, (index) => index),
-              ),
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

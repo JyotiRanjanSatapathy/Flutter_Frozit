@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:frozit/common/colors.dart';
 import 'package:frozit/common/names.dart';
+import 'package:frozit/views/account/model/account_provider.dart';
 import 'package:frozit/widgets/illustartion.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgets/appbar.dart';
 import '../../widgets/button.dart';
@@ -20,8 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:
-          const FrozitAppbar(title: ScreenRoutes.login, showBackButton: true),
+      appBar: const FrozitAppbar(title: ScreenRoutes.login),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 50.0),
         child: Column(
@@ -46,9 +47,25 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 30),
                   FrozitRoundedButton(
                     text: 'Get OTP',
-                    onPressed: () {
+                    onPressed: () async {
                       // TODO: Do API call here
-                      // final String phone = _phoneController.text;
+                      final String phone = _phoneController.text;
+                      if (phone.isEmpty || phone.length < 10) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Please enter a valid phone number',
+                              style: TextStyle(color: kPrimaryColor),
+                            ),
+                            backgroundColor: kContainerColorLight,
+                          ),
+                        );
+                        return;
+                      }
+
+                      await context
+                          .read<AccountProvider>()
+                          .fetchUserByPhone(phone);
 
                       Navigator.of(context).pushNamed(ScreenRoutes.verify);
                     },

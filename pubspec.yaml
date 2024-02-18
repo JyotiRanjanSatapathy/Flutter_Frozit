@@ -12,6 +12,9 @@ dependencies:
   flutter_svg: ^2.0.9
   dotted_line: ^3.2.2
   chip_list: ^2.4.4+8
+  provider: ^6.1.1
+  tuple: ^2.0.2
+  path_provider: ^2.1.2
 
 dev_dependencies:
   flutter_test:
