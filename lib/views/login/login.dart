@@ -65,7 +65,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
                       await context
                           .read<AccountProvider>()
-                          .fetchUserByPhone(phone);
+                          .loginUserByPhone(phone);
 
                       Navigator.of(context).pushNamed(ScreenRoutes.verify);
                     },

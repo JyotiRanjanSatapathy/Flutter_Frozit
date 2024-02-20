@@ -32,13 +32,15 @@ class WelcomeScreen extends StatelessWidget {
                     },
                   ),
                   const LabelText1(),
-                  const FrozeitPrimaryButton2(),
+                  const FrozitPrimaryButton2(),
                   Padding(
                     padding: const EdgeInsets.all(20.0),
                     child: TextButton(
                       onPressed: () {
-                        Navigator.of(context)
-                            .pushNamed(ScreenRoutes.navigationRouter);
+                        Navigator.of(context).pushNamedAndRemoveUntil(
+                          ScreenRoutes.navigationRouter,
+                          (route) => false,
+                        );
                       },
                       child: const Text(
                         "Continue as a guest",
@@ -81,15 +83,17 @@ class LabelText1 extends StatelessWidget {
   }
 }
 
-class FrozeitPrimaryButton2 extends StatelessWidget {
-  const FrozeitPrimaryButton2({
+class FrozitPrimaryButton2 extends StatelessWidget {
+  const FrozitPrimaryButton2({
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: () {
+        Navigator.of(context).pushNamed(ScreenRoutes.signup);
+      },
       style: ElevatedButton.styleFrom(
         backgroundColor: kContainerColor2,
         textStyle: const TextStyle(

@@ -11,6 +11,8 @@ class AccountProvider with ChangeNotifier {
   UserAccount? _user;
   UserAccount? get user => _user;
 
+  bool get isLoggedIn => _user != null;
+
   LoginStatus get loginStatus {
     if (_user == null) {
       return LoginStatus.loggedOut;
@@ -35,7 +37,43 @@ class AccountProvider with ChangeNotifier {
     return path;
   }
 
-  Future<void> fetchUserByPhone(String phone) async {
+  Future<void> signupUser({
+    required String name,
+    required String email,
+    required String phone,
+  }) async {
+    // Save user details to local storage
+    final user = UserAccount(
+      name: name,
+      email: email,
+      phone: phone,
+    );
+    saveUserDetails(user);
+    notifyListeners();
+  }
+
+  Future<void> saveAddress({
+    required String address,
+    required String city,
+    required String state,
+    required String pincode,
+  }) async {
+    final user = _user;
+    if (user != null) {
+      user.location = Location(
+        address: address,
+        city: city,
+        state: state,
+        pincode: pincode,
+      );
+
+      _user = user;
+      saveUserDetails(user);
+      notifyListeners();
+    }
+  }
+
+  Future<void> loginUserByPhone(String phone) async {
     // Fetch user details from API
     final user = UserAccount(
       name: 'John Doe',
@@ -49,6 +87,7 @@ class AccountProvider with ChangeNotifier {
       ),
     );
     saveUserDetails(user);
+    notifyListeners();
   }
 
   Future<void> loadUserDetails() async {
@@ -69,7 +108,7 @@ class AccountProvider with ChangeNotifier {
     setUser(user);
   }
 
-  Future<void> removeUserDetails() async {
+  Future<void> logout() async {
     String path = await _localPath;
     final localFile = File('$path/user.json');
     localFile.deleteSync();

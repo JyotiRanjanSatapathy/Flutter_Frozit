@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frozit/views/account/account_screen.dart';
 import 'package:frozit/views/cart/cart_screen.dart';
 import 'package:frozit/views/home/home_screen.dart';
 import 'package:frozit/views/product/product_screen.dart';
@@ -26,9 +27,7 @@ class NavigationRouterScreen extends StatelessWidget {
             const HomeScreen(),
             const ProductScreen(),
             const CartScreen(),
-            Container(
-              color: Colors.blue,
-            ),
+            const AccountScreen()
           ][router.currentIndex],
           bottomNavigationBar: NavigationBar(
             overlayColor: MaterialStateProperty.all(kContainerColor),

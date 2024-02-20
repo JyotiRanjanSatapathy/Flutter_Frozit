@@ -5,9 +5,11 @@ class DottedTextField extends StatelessWidget {
   const DottedTextField({
     super.key,
     required this.controller,
+    required this.onFieldChanged,
   });
 
   final TextEditingController controller;
+  final ValueChanged<String> onFieldChanged;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -22,6 +24,7 @@ class DottedTextField extends StatelessWidget {
             letterSpacing: 40,
             fontSize: 40,
           ),
+          onChanged: onFieldChanged,
           maxLength: 6,
         ),
         const DottedLine(

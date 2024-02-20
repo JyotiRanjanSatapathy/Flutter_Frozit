@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:frozit/common/colors.dart';
-import 'package:frozit/common/names.dart';
 import 'package:frozit/views/home/model/product_category.dart';
 import 'package:provider/provider.dart';
 

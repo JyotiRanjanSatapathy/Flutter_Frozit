@@ -66,8 +66,9 @@ class FrozitRoundedButton extends StatelessWidget {
             ),
             const Spacer(),
             const Icon(
-              Icons.arrow_forward,
+              Icons.arrow_forward_ios,
               color: Colors.white,
+              size: 18,
             ),
           ],
         ),

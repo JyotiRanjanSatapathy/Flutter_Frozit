@@ -2,7 +2,7 @@ class UserAccount {
   final String name;
   final String email;
   final String phone;
-  final Location? location;
+  Location? location;
 
   UserAccount({
     required this.name,
