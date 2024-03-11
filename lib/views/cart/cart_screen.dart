@@ -108,8 +108,11 @@ class CartScreen extends StatelessWidget {
                   text: 'Proceed to checkout',
                   onPressed: () {
                     if (!context.read<AccountProvider>().isLoggedIn) {
-                      Navigator.pushNamed(context, ScreenRoutes.login);
-                      context.read<CartProvider>().fromCart = true;
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        ScreenRoutes.signup,
+                        (route) => false,
+                      );
                     } else {
                       Navigator.pushNamed(context, ScreenRoutes.checkout);
                     }

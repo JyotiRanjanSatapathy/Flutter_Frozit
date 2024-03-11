@@ -1,6 +1,7 @@
 class ScreenRoutes {
   static const welcome = 'Welcome';
   static const login = 'Login';
+  static const phoneLogin = 'PhoneLogin';
   static const signup = 'Signup';
   static const verify = 'Verify';
   static const navigationRouter = 'BottomNavigation';

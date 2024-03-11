@@ -40,8 +40,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     const OfferCard(),
                     const SizedBox(height: 20),
-                    Padding(
-                      padding: const EdgeInsets.all(20.0),
+                    const Padding(
+                      padding: EdgeInsets.all(20.0),
                       child: Text(
                         'Categories',
                         style: TextStyle(

@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "670058579127",
+    "project_id": "frozit-93a71",
+    "storage_bucket": "frozit-93a71.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:670058579127:android:76e61b74c440ccb2c6b932",
+        "android_client_info": {
+          "package_name": "com.example.frozit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgb-AY1DBTM9MqgRrJwli9rIe1xFh50xw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:670058579127:android:6338331b3e9997dec6b932",
+        "android_client_info": {
+          "package_name": "come.example.frozit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAgb-AY1DBTM9MqgRrJwli9rIe1xFh50xw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

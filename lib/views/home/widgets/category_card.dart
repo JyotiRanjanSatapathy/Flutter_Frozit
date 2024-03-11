@@ -16,6 +16,7 @@ class CategoryCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      radius: 30,
       onTap: () {
         context.read<ProductsModel>().currentCategory = category;
         context.read<NavigationProvider>().currentIndex = 1;

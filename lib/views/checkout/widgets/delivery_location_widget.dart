@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:frozit/common/colors.dart';
+import 'package:frozit/common/names.dart';
 
 import '../../account/model/account_model.dart';
 
@@ -30,46 +31,46 @@ class DeliveryLocationWidget extends StatelessWidget {
           width: 1,
         ),
       ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+      child: Padding(
+        padding: const EdgeInsets.all(15.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
               children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 5.0, bottom: 5),
-                  child: Text(
-                    user.name,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
+                const Icon(
+                  Icons.location_on,
+                  size: 20,
+                  color: kPrimaryColor,
                 ),
-                Row(
+                const SizedBox(width: 15),
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Icon(
-                      Icons.location_on,
-                      size: 20,
-                      color: kPrimaryColor,
+                    Text(
+                      user.address?.name ?? 'Add Address',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     Text(
-                        '${user.location?.address}, ${user.location?.city}, ${user.location?.state}'),
+                        '${user.address?.area}\n${user.address?.city}, ${user.address?.state}'),
                   ],
                 ),
               ],
             ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.edit,
-              color: kPrimaryColor,
+            IconButton(
+              onPressed: () {
+                Navigator.pushNamed(context, ScreenRoutes.address);
+              },
+              icon: const Icon(
+                Icons.edit,
+                color: kPrimaryColor,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

@@ -102,7 +102,7 @@ class ProductsModel with ChangeNotifier {
     isLoading = true;
 
     // TODO: Get products from server
-    await Future.delayed(const Duration(milliseconds: 500));
+    // await Future.delayed(const Duration(milliseconds: 500));
 
     // Add products to the list
     products =

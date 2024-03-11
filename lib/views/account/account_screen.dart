@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:frozit/views/account/model/account_provider.dart';
 import 'package:frozit/views/account/widgets/account_menu_item.dart';
-import 'package:frozit/views/account/widgets/account_profile_container.dart';
 import 'package:frozit/widgets/appbar.dart';
 import 'package:provider/provider.dart';
 
 import '../../common/colors.dart';
 import '../../common/names.dart';
+import 'widgets/account_profile_container.dart';
 
 class AccountScreen extends StatelessWidget {
   const AccountScreen({super.key});
@@ -44,10 +44,12 @@ class AccountScreen extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () {
-                context.read<AccountProvider>().logout();
+                if (context.read<AccountProvider>().user != null) {
+                  context.read<AccountProvider>().logout();
+                }
                 Navigator.pushNamedAndRemoveUntil(
                   context,
-                  ScreenRoutes.login,
+                  ScreenRoutes.welcome,
                   (route) => false,
                 );
               },

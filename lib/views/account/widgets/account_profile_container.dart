@@ -41,8 +41,8 @@ class AccountProfileContainer extends StatelessWidget {
                 Row(
                   children: [
                     const Icon(
-                      Icons.person,
-                      size: 40,
+                      Icons.account_circle_rounded,
+                      size: 30,
                       color: kPrimaryColor,
                     ),
                     const SizedBox(width: 20),
@@ -51,7 +51,7 @@ class AccountProfileContainer extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Text(
-                          user?.name ?? 'Guest',
+                          user?.address?.name ?? 'Guest',
                           style: const TextStyle(
                             fontWeight: FontWeight.bold,
                           ),
@@ -72,9 +72,9 @@ class AccountProfileContainer extends StatelessWidget {
                                   color: kSecondaryColor,
                                 ),
                               ),
-                        (user?.location != null)
+                        (user?.address != null)
                             ? Text(
-                                '${user?.location?.address}, ${user?.location?.city}, ${user?.location?.state}',
+                                '${user?.address?.city}',
                                 overflow: TextOverflow.clip,
                                 style: const TextStyle(
                                   fontSize: 12,

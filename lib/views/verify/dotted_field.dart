@@ -16,19 +16,21 @@ class DottedTextField extends StatelessWidget {
       children: [
         TextField(
           controller: controller,
+          keyboardType: TextInputType.number,
           decoration: const InputDecoration(
             border: InputBorder.none,
             contentPadding: EdgeInsets.only(bottom: -10, left: -5),
           ),
           style: const TextStyle(
-            letterSpacing: 40,
+            letterSpacing: 30,
             fontSize: 40,
           ),
+          onTapOutside: (event) => FocusScope.of(context).unfocus(),
           onChanged: onFieldChanged,
           maxLength: 6,
         ),
         const DottedLine(
-          dashLength: 40,
+          dashLength: 30,
           dashGapLength: 25,
           lineThickness: 2,
         ),

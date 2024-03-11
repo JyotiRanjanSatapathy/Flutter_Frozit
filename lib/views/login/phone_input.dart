@@ -12,10 +12,10 @@ class PhoneInputField extends StatelessWidget {
     return TextField(
       decoration: const InputDecoration(
         labelText: "Phone no.",
-        prefixText: "+91 ",
       ),
+      onTapOutside: (x) => FocusScope.of(context).unfocus(),
       keyboardType: TextInputType.number,
-      maxLength: 10,
+      maxLength: 13,
       controller: controller,
       style: const TextStyle(
         fontSize: 25,

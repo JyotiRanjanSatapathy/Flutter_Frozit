@@ -1,23 +1,24 @@
 class UserAccount {
-  final String name;
+  final String uid;
   final String email;
   final String phone;
-  Location? location;
+  Address? address;
 
   UserAccount({
-    required this.name,
+    required this.uid,
     required this.email,
     required this.phone,
-    this.location,
+    this.address,
   });
 
   UserAccount.fromJson(Map<String, dynamic> json)
-      : name = json['name'],
+      : uid = json['uid'] ?? json['userUid'],
         email = json['email'],
         phone = json['phone'],
-        location = json['location'] != null
-            ? Location(
-                address: json['location']['address'],
+        address = json['location'] != null
+            ? Address(
+                name: json['location']['name'],
+                area: json['location']['address'],
                 city: json['location']['city'],
                 state: json['location']['state'],
                 pincode: json['location']['pincode'],
@@ -26,29 +27,31 @@ class UserAccount {
 
   Map<String, dynamic> toJson() {
     return {
-      'name': name,
       'email': email,
       'phone': phone,
-      'location': location != null
+      'location': address != null
           ? {
-              'address': location!.address,
-              'city': location!.city,
-              'state': location!.state,
-              'pincode': location!.pincode,
+              'name': address!.name,
+              'address': address!.area,
+              'city': address!.city,
+              'state': address!.state,
+              'pincode': address!.pincode,
             }
           : null,
     };
   }
 }
 
-class Location {
-  final String address;
+class Address {
+  final String name;
+  final String area;
   final String city;
   final String state;
   final String pincode;
 
-  Location({
-    required this.address,
+  Address({
+    required this.name,
+    required this.area,
     required this.city,
     required this.state,
     required this.pincode,

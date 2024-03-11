@@ -1,13 +1,18 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:frozit/common/api.dart';
 import 'package:frozit/common/colors.dart';
 import 'package:frozit/common/names.dart';
-import 'package:frozit/views/account/model/account_provider.dart';
-import 'package:frozit/widgets/illustartion.dart';
+import 'package:frozit/widgets/appbar.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:provider/provider.dart';
 
-import '../../widgets/appbar.dart';
 import '../../widgets/button.dart';
-import 'phone_input.dart';
+import '../../widgets/illustartion.dart';
+import '../../widgets/text_field.dart';
+import '../account/model/account_provider.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,65 +22,140 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const FrozitAppbar(title: ScreenRoutes.login),
+      appBar: const FrozitAppbar(title: 'Login'),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 30.0, vertical: 50.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const IllustrationWidget(
-              'assets/images/undraw_login_re_4vu2.svg',
-            ),
-            const Text(
-              "OTP will be sent to your mobile number",
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: kSecondaryColor,
+            Expanded(
+              child: SvgPicture.asset(
+                'assets/images/undraw_login_re_4vu2.svg',
               ),
             ),
-            Expanded(
+            Form(
+              key: _formKey,
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  PhoneInputField(_phoneController),
-                  const SizedBox(height: 30),
-                  FrozitRoundedButton(
-                    text: 'Get OTP',
-                    onPressed: () async {
-                      // TODO: Do API call here
-                      final String phone = _phoneController.text;
-                      if (phone.isEmpty || phone.length < 10) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text(
-                              'Please enter a valid phone number',
-                              style: TextStyle(color: kPrimaryColor),
-                            ),
-                            backgroundColor: kContainerColorLight,
-                          ),
-                        );
-                        return;
-                      }
-
-                      await context
-                          .read<AccountProvider>()
-                          .loginUserByPhone(phone);
-
-                      Navigator.of(context).pushNamed(ScreenRoutes.verify);
-                    },
+                  const SizedBox(height: 20),
+                  FrozitTextField(
+                    controller: emailController,
+                    label: 'Email',
                   ),
+                  const SizedBox(height: 20),
+                  FrozitTextField(
+                    controller: passwordController,
+                    label: 'Password',
+                  ),
+                  const SizedBox(height: 20),
+                  FrozitPrimaryButton(
+                    text: 'Login',
+                    onPressed: () => login(context),
+                  ),
+                  const SizedBox(height: 30),
+                  const Text(
+                    "Or login with",
+                    style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w600,
+                      color: kSecondaryColor,
+                    ),
+                  ),
+                  const SizedBox(height: 30),
+                  SizedBox(
+                    height: 80,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          onPressed: () {
+                            Navigator.pushNamed(
+                                context, ScreenRoutes.phoneLogin);
+                          },
+                          icon: const Icon(
+                            Icons.phone_rounded,
+                            color: kPrimaryColor,
+                            size: 70,
+                          ),
+                        ),
+                        const SizedBox(width: 30),
+                        IconButton(
+                          onPressed: () => signInWithGoogle(),
+                          icon: Image.asset('assets/images/google.png'),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 50),
                 ],
               ),
-            ),
+            )
           ],
         ),
       ),
     );
+  }
+
+  Future<void> signInWithGoogle() async {
+    // Trigger the authentication flow
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    // Obtain the auth details from the request
+    final GoogleSignInAuthentication? googleAuth =
+        await googleUser?.authentication;
+
+    // Create a new credential
+    final credential = GoogleAuthProvider.credential(
+      accessToken: googleAuth?.accessToken,
+      idToken: googleAuth?.idToken,
+    );
+
+    // Once signed in, return the UserCredential
+    UserCredential user =
+        await FirebaseAuth.instance.signInWithCredential(credential);
+
+    if (user.user != null) {
+      // TODO: Call the API to get user details from firebase token
+      // String? firebase
+    }
+  }
+
+  Future<void> login(BuildContext context) async {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+    context.loaderOverlay.show();
+    final accountModel = context.read<AccountProvider>();
+    final account = await Api.loginEmail(
+      email: emailController.text,
+      password: passwordController.text,
+    );
+    if (account != null) {
+      accountModel.saveUserDetails(account);
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        ScreenRoutes.navigationRouter,
+        (route) => false,
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text(
+            'Invalid email or password',
+            style: TextStyle(color: kPrimaryColor),
+          ),
+          backgroundColor: kContainerColorLight,
+        ),
+      );
+    }
+    context.loaderOverlay.hide();
   }
 }

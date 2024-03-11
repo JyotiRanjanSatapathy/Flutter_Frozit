@@ -16,6 +16,7 @@ class ProductDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      radius: 30,
       onTap: () {
         // TODO: Add action
         context.read<ProductsModel>().currentProduct = product;

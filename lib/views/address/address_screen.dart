@@ -1,7 +1,6 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:frozit/common/colors.dart';
 import 'package:frozit/views/account/model/account_provider.dart';
 import 'package:frozit/widgets/appbar.dart';
 import 'package:frozit/widgets/button.dart';
@@ -16,6 +15,7 @@ class AddressScreen extends StatefulWidget {
 }
 
 class _AddressScreenState extends State<AddressScreen> {
+  final TextEditingController _nameController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
   final TextEditingController _cityController = TextEditingController();
   final TextEditingController _stateController = TextEditingController();
@@ -25,10 +25,11 @@ class _AddressScreenState extends State<AddressScreen> {
   void initState() {
     super.initState();
     final AccountProvider accountProvider = context.read<AccountProvider>();
-    _addressController.text = accountProvider.user?.location?.address ?? '';
-    _cityController.text = accountProvider.user?.location?.city ?? '';
-    _stateController.text = accountProvider.user?.location?.state ?? '';
-    _pincodeController.text = accountProvider.user?.location?.pincode ?? '';
+    _nameController.text = accountProvider.user?.address?.name ?? '';
+    _addressController.text = accountProvider.user?.address?.area ?? '';
+    _cityController.text = accountProvider.user?.address?.city ?? '';
+    _stateController.text = accountProvider.user?.address?.state ?? '';
+    _pincodeController.text = accountProvider.user?.address?.pincode ?? '';
   }
 
   @override
@@ -43,6 +44,10 @@ class _AddressScreenState extends State<AddressScreen> {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                FrozitTextField(
+                  label: 'Name',
+                  controller: _nameController,
+                ),
                 const SizedBox(height: 20),
                 FrozitTextField(
                   label: 'Address',
@@ -76,6 +81,7 @@ class _AddressScreenState extends State<AddressScreen> {
 
                 log('Address: $address, City: $city, State: $state, Pincode: $pincode');
                 context.read<AccountProvider>().saveAddress(
+                      name: 'Home',
                       address: address,
                       city: city,
                       state: state,

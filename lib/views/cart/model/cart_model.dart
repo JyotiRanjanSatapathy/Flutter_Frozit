@@ -11,7 +11,6 @@ class CartProduct {
 class CartProvider with ChangeNotifier {
   Map<String, CartProduct> _cartItems = {};
   double gstPercent = .18;
-  bool fromCart = false;
 
   void addToCart(ProductInfo product) {
     String name = product.name;

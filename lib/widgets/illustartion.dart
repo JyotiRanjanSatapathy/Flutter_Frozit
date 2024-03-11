@@ -12,12 +12,8 @@ class IllustrationWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: Center(
-        child: SvgPicture.asset(
-          illustration,
-          width: 200,
-          height: 200,
-        ),
+      child: SvgPicture.asset(
+        illustration,
       ),
     );
   }
