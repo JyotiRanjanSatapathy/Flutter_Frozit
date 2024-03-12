@@ -57,6 +57,13 @@ class AccountProfileContainer extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(height: 5),
+                        Text(
+                          user?.email ?? "",
+                          style: const TextStyle(
+                            fontSize: 12,
+                            color: kSecondaryColor,
+                          ),
+                        ),
                         (user?.phone != null)
                             ? Text(
                                 "+ 91 ${user?.phone}",
@@ -67,22 +74,6 @@ class AccountProfileContainer extends StatelessWidget {
                               )
                             : const Text(
                                 'No Phone Number',
-                                style: TextStyle(
-                                  fontSize: 12,
-                                  color: kSecondaryColor,
-                                ),
-                              ),
-                        (user?.address != null)
-                            ? Text(
-                                '${user?.address?.city}',
-                                overflow: TextOverflow.clip,
-                                style: const TextStyle(
-                                  fontSize: 12,
-                                  color: kSecondaryColor,
-                                ),
-                              )
-                            : const Text(
-                                'No Address Found',
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: kSecondaryColor,

@@ -12,7 +12,20 @@
           "package_name": "com.example.frozit"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "670058579127-866u1jhd8uf4evo65fi1aek4uf6bt4it.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.frozit",
+            "certificate_hash": "97d97412509f715f0c47004466c6437ef262de3d"
+          }
+        },
+        {
+          "client_id": "670058579127-em5njifavtbjg8lohe4fnn4q6ljrg4gc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyAgb-AY1DBTM9MqgRrJwli9rIe1xFh50xw"
@@ -20,26 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:670058579127:android:6338331b3e9997dec6b932",
-        "android_client_info": {
-          "package_name": "come.example.frozit"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAgb-AY1DBTM9MqgRrJwli9rIe1xFh50xw"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "670058579127-em5njifavtbjg8lohe4fnn4q6ljrg4gc.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "670058579127-6cc8qku5llu9m8baae6ose93pnfubv3o.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.frozit"
+              }
+            }
+          ]
         }
       }
     }

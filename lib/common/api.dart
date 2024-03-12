@@ -63,7 +63,9 @@ class Api {
 
     if (response.statusCode == 200) {
       final body = jsonDecode(response.body);
-      String token = body['data']['jwt'][0];
+      List<dynamic> jwt = body['data']['jwt'];
+      List<String> jwtString = jwt.cast<String>();
+      String token = jwtString[(firebaseToken == null) ? 0 : 1];
       setToken(token);
       // log(body);
       return UserAccount(

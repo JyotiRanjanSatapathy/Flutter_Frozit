@@ -63,6 +63,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '670058579127',
     projectId: 'frozit-93a71',
     storageBucket: 'frozit-93a71.appspot.com',
+    iosClientId: '670058579127-6cc8qku5llu9m8baae6ose93pnfubv3o.apps.googleusercontent.com',
     iosBundleId: 'com.example.frozit',
   );
 }

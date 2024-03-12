@@ -1,7 +1,7 @@
 class UserAccount {
   final String uid;
-  final String email;
-  final String phone;
+  final String? email;
+  final String? phone;
   Address? address;
 
   UserAccount({

@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:frozit/common/api.dart';
 import 'package:frozit/common/colors.dart';
 import 'package:frozit/common/names.dart';
@@ -106,25 +109,60 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> signInWithGoogle() async {
     // Trigger the authentication flow
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+    log('signing in with google');
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn(
+        scopes: [
+          'email',
+          'profile',
+        ],
+      ).signIn();
+      // log(googleUser.toString());
 
-    // Obtain the auth details from the request
-    final GoogleSignInAuthentication? googleAuth =
-        await googleUser?.authentication;
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
-    // Create a new credential
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth?.accessToken,
-      idToken: googleAuth?.idToken,
-    );
+      // log(googleAuth.toString());
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
 
-    // Once signed in, return the UserCredential
-    UserCredential user =
-        await FirebaseAuth.instance.signInWithCredential(credential);
+      // Once signed in, return the UserCredential
+      UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
 
-    if (user.user != null) {
-      // TODO: Call the API to get user details from firebase token
-      // String? firebase
+      if (userCredential.user != null) {
+        // TODO: Call the API to get user details from firebase token
+        String? firebaseToken = await userCredential.user?.getIdToken();
+        log('Firebase Token: $firebaseToken');
+        if (firebaseToken != null) {
+          context.loaderOverlay.show();
+          final account = await Api.getUser(firebaseToken: firebaseToken);
+          if (account != null) {
+            log("Account: $account");
+            context.read<AccountProvider>().saveUserDetails(account);
+            context.loaderOverlay.hide();
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              ScreenRoutes.navigationRouter,
+              (route) => false,
+            );
+          } else {
+            Fluttertoast.showToast(msg: "Account not found");
+          }
+        } else {
+          Fluttertoast.showToast(
+            msg: 'Failed to get user details',
+            toastLength: Toast.LENGTH_LONG,
+          );
+        }
+      }
+    } catch (e) {
+      log(e.toString());
+      Fluttertoast.showToast(msg: e.toString(), toastLength: Toast.LENGTH_LONG);
     }
   }
 
