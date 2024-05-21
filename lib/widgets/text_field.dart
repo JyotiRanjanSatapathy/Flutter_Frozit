@@ -16,6 +16,7 @@ class FrozitTextField extends StatefulWidget {
   State<FrozitTextField> createState() => _FrozitTextFieldState();
 }
 
+
 class _FrozitTextFieldState extends State<FrozitTextField> {
   bool _obscureText = false;
   @override

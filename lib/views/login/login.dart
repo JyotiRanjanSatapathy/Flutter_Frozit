@@ -61,7 +61,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   const SizedBox(height: 20),
                   FrozitPrimaryButton(
                     text: 'Login',
-                    onPressed: () => login(context),
+                    onPressed: () => loginEmailPassword(context),
                   ),
                   const SizedBox(height: 30),
                   const Text(
@@ -81,7 +81,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         IconButton(
                           onPressed: () {
                             Navigator.pushNamed(
-                                context, ScreenRoutes.phoneLogin);
+                              context,
+                              ScreenRoutes.phoneLogin,
+                            );
                           },
                           icon: const Icon(
                             Icons.phone_rounded,
@@ -91,7 +93,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         const SizedBox(width: 30),
                         IconButton(
-                          onPressed: () => signInWithGoogle(),
+                          onPressed: () => loginWithGoogle(),
                           icon: Image.asset('assets/images/google.png'),
                         ),
                       ],
@@ -107,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Future<void> signInWithGoogle() async {
+  Future<void> loginWithGoogle() async {
     // Trigger the authentication flow
     log('signing in with google');
     try {
@@ -135,7 +137,6 @@ class _LoginScreenState extends State<LoginScreen> {
           await FirebaseAuth.instance.signInWithCredential(credential);
 
       if (userCredential.user != null) {
-        // TODO: Call the API to get user details from firebase token
         String? firebaseToken = await userCredential.user?.getIdToken();
         log('Firebase Token: $firebaseToken');
         if (firebaseToken != null) {
@@ -166,7 +167,7 @@ class _LoginScreenState extends State<LoginScreen> {
     }
   }
 
-  Future<void> login(BuildContext context) async {
+  Future<void> loginEmailPassword(BuildContext context) async {
     if (!_formKey.currentState!.validate()) {
       return;
     }
